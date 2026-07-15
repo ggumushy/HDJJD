@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy-to-Understand Income Tax Calculator (FY 2025-26)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            color: #2d3748;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        h1 {
+            text-align: center;
+            color: #1a365d;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #718096;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .allowance-box {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .allowance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .allowance-row label {
+            margin-bottom: 0;
+            font-weight: 500;
+            font-size: 13px;
+            width: 70%;
+        }
+        .allowance-row input {
+            width: 25%;
+            padding: 6px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        /* Help description style below inputs */
+        .field-help {
+            font-size: 11.5px;
+            color: #4a5568;
+            margin-top: 4px;
+            display: block;
+            line-height: 1.4;
+            background: #f7fafc;
+            padding: 6px 10px;
+            border-left: 3px solid #cbd5e0;
+            border-radius: 0 4px 4px 0;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background-color: #fff;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        button {
+            width: 100%;
+            background-color: #2b6cb0;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2c5282;
+        }
+        .results-container {
+            margin-top: 35px;
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        th {
+            background-color: #edf2f7;
+            color: #2d3748;
+            font-weight: 700;
+        }
+        .highlight-row {
+            background-color: #f7fafc;
+            font-weight: 600;
+        }
+        .final-row {
+            background-color: #ebf8ff;
+            font-weight: bold;
+            font-size: 17px;
+            color: #2b6cb0;
+            border-top: 2px solid #2b6cb0;
+            border-bottom: 2px solid #2b6cb0;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .info-note {
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            color: #2b6cb0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Easy New Tax Regime Calculator</h1>
+    <p class="subtitle">Demystified for everyday taxpayers • Valid for FY 2025-26 (AY 2026-27)</p>
+
+    <div class="info-note">
+        <strong>💡 Plain English Summary:</strong> In this setup, your income up to ₹12 Lakhs becomes completely <strong>Tax-Free</strong>. Standard Deduction of ₹75,000 is given automatically, but popular things like old HRA or 80C are skipped.
+    </div>
+
+    <div class="section-title">Salary Income Panel</div>
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="grossSalary">Gross Annual Salary (₹)</label>
+            <input type="number" id="grossSalary" value="1098395" oninput="calculateExemptAllowancesTotal()">
+            <span class="field-help">Your entire annual salary package before deductions. Found on your Form-16 Part B.</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Less: Exempt Allowances u/s 10 (₹)</label>
+            <input type="number" id="exemptAllowances" value="0" readonly style="background-color: #e2e8f0; font-weight: bold;">
+            <span class="field-help">Allowances that are tax-free. Only active official tour/travel duties or handicapped commuter benefits qualify under this New Scheme.</span>
+            
+            <div class="allowance-box">
+                <span style="font-size: 12px; font-weight: bold; color: #4a5568; display:block; margin-bottom:8px;">Only Valid Exemptions Allowed:</span>
+                <div class="allowance-row">
+                    <label for="allowTour">Official Travel Reimbursements</label>
+                    <input type="number" id="allowTour" value="0" min="0" oninput="calculateExemptAllowancesTotal()">
+                </div>
+                <div class="allowance-row">
+                    <label for="allowDaily">Outstation Daily Allowance</label>
+                    <input type="number" id="allowDaily" value="0" min="0" oninput="calculateExemptAllowancesTotal()">
+                </div>
+                <div class="allowance-row">
+                    <label for="allowConveyance">Conveyance for Official Duty Work</label>
+                    <input type="number" id="allowConveyance" value="0" min="0" oninput="calculateExemptAllowancesTotal()">
+                </div>
+                <div class="allowance-row">
+                    <label for="allowHandicap">Divyang / Handicapped Commute Benefit (Max ₹38,400/yr)</label>
+                    <input type="number" id="allowHandicap" value="0" min="0" max="38400" oninput="calculateExemptAllowancesTotal()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">House Property & Extra Earnings</div>
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="houseProperty">Income from House Property (₹)</label>
+            <input type="number" id="houseProperty" value="0">
+            <span class="field-help">Earnings from rent collections. If you have a net home loan loss, enter it with a minus sign (e.g., -50000).</span>
+        </div>
+        <div class="form-group">
+            <label for="interestDeposit">Interest from Bank Deposits / Post Office (₹)</label>
+            <input type="number" id="interestDeposit" value="16671">
+            <span class="field-help">Interest added to your Savings accounts or Fixed Deposits (FD) over the year.</span>
+        </div>
+        <div class="form-group">
+            <label for="dividendIncome">Dividend Earnings (₹)</label>
+            <input type="number" id="dividendIncome" value="244">
+            <span class="field-help">Profits distributed to you from mutual funds or stock market shares.</span>
+        </div>
+        <div class="form-group">
+            <label for="interestRefund">Interest on old Tax Refunds (₹)</label>
+            <input type="number" id="interestRefund" value="0">
+            <span class="field-help">Extra interest paid to you by the Tax Department along with an older refund.</span>
+        </div>
+    </div>
+
+    <div class="section-title">Relief, Extra Fees & Penalties</div>
+    <div class="grid-2">
+        <div class="form-group">
+            <label for="relief89">Relief u/s 89 (Salary Arrears) (₹)</label>
+            <input type="number" id="relief89" value="0">
+            <span class="field-help"><strong>What it is:</strong> A tax discount given if you received past delayed salary arrears all at once this year. Requires Form 10E submission.</span>
+        </div>
+        <div class="form-group">
+            <label for="interest234A">Interest u/s 234A (Late Filing) (₹)</label>
+            <input type="number" id="interest234A" value="0">
+            <span class="field-help"><strong>What it is:</strong> Penalty interest (1% per month) charged if you file your return past the official July deadline.</span>
+        </div>
+        <div class="form-group">
+            <label for="interest234B">Interest u/s 234B (Advance Tax Default) (₹)</label>
+            <input type="number" id="interest234B" value="0">
+            <span class="field-help"><strong>What it is:</strong> Penalty interest levied if you failed to pay at least 90% of your advance tax obligations throughout the fiscal year.</span>
+        </div>
+        <div class="form-group">
+            <label for="interest234C">Interest u/s 234C (Advance Tax Delayed Installment) (₹)</label>
+            <input type="number" id="interest234C" value="0">
+            <span class="field-help"><strong>What it is:</strong> Penalty interest applied if you missed or deferred any of your specific quarterly advance tax installment target dates.</span>
+        </div>
+        <div class="form-group">
+            <label for="fee234F">Fee u/s 234F (Late Filing Penalty Fee) (₹)</label>
+            <input type="number" id="fee234F" value="0">
+            <span class="field-help"><strong>What it is:</strong> Flat late fee penalty (up to ₹5,000) for missing the basic seasonal deadline to submit tax documents.</span>
+        </div>
+    </div>
+
+    <button onclick="performComprehensiveTaxCalculation()">Compute Final Income Tax Return</button>
+
+    <div class="results-container" id="resultsBlock">
+        <div class="section-title" style="background-color: #1a365d;">Official Breakdown Sheet</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ITR Reference Line</th>
+                    <th class="text-right">Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>i. Gross Salary Entered</td>
+                    <td class="text-right" id="outGrossSalary">₹0</td>
+                </tr>
+                <tr>
+                    <td>ii. Less: Allowed Work-Related Exemptions</td>
+                    <td class="text-right" id="outExemptAllowances" style="color: #c53030;">₹0</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>iii. Net Salary Result</td>
+                    <td class="text-right" id="outNetSalary">₹0</td>
+                </tr>
+                <tr>
+                    <td>iv. Minus Standard Deduction (Salaried Bonus)</td>
+                    <td class="text-right" id="outStdDeduction">- ₹75,000</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>v. Income Charged under Head 'Salaries'</td>
+                    <td class="text-right" id="outHeadSalaries">₹0</td>
+                </tr>
+                <tr>
+                    <td>B2. Income/Loss from House Property</td>
+                    <td class="text-right" id="outHouseProperty">₹0</td>
+                </tr>
+                <tr>
+                    <td>B3. Total Other Income Sources</td>
+                    <td class="text-right" id="outOtherSources">₹0</td>
+                </tr>
+                <tr class="highlight-row" style="background-color: #edf2f7;">
+                    <td>Gross Total Income</td>
+                    <td class="text-right" id="outGrossTotalIncome">₹0</td>
+                </tr>
+                <tr class="highlight-row" style="border-bottom: 2px solid #cbd5e0;">
+                    <td>C2. Total Net Taxable Income</td>
+                    <td class="text-right" id="outTotalIncome">₹0</td>
+                </tr>
+                <tr>
+                    <td>D1. Raw Calculated Slab Tax</td>
+                    <td class="text-right" id="outTaxPayableSlab">₹0</td>
+                </tr>
+                <tr>
+                    <td>D2. Rebate u/s 87A (Wipes out tax up to ₹12 Lakhs income)</td>
+                    <td class="text-right" id="outRebate87A" style="color: #2f855a;">₹0</td>
+                </tr>
+                <tr>
+                    <td>D3. Tax Due After Rebate Discount</td>
+                    <td class="text-right" id="outTaxAfterRebate">₹0</td>
+                </tr>
+                <tr>
+                    <td>D4. Education & Health Cess (4%)</td>
+                    <td class="text-right" id="outCess">₹0</td>
+                </tr>
+                <tr class="highlight-row">
+                    <td>D5. Combined Tax & Cess</td>
+                    <td class="text-right" id="outTotalTaxCess">₹0</td>
+                </tr>
+                <tr>
+                    <td>D6. Arrear Relief Discount (u/s 89)</td>
+                    <td class="text-right" id="outRelief89">₹0</td>
+                </tr>
+                <tr>
+                    <td>Remaining Base Tax Due</td>
+                    <td class="text-right" id="outBalanceTax">₹0</td>
+                </tr>
+                <tr>
+                    <td>Total Mandatory Penalties & Interest (234A+B+C+F)</td>
+                    <td class="text-right" id="outTotalInterestFees">₹0</td>
+                </tr>
+                <tr class="final-row">
+                    <td>D11. Final Balance Tax Payable to Government</td>
+                    <td class="text-right" id="outFinalDue">₹0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function calculateExemptAllowancesTotal() {
+        const allowTour = parseFloat(document.getElementById('allowTour').value) || 0;
+        const allowDaily = parseFloat(document.getElementById('allowDaily').value) || 0;
+        const allowConveyance = parseFloat(document.getElementById('allowConveyance').value) || 0;
+        const allowHandicap = parseFloat(document.getElementById('allowHandicap').value) || 0;
+
+        const totalExemptions = allowTour + allowDaily + allowConveyance + allowHandicap;
+        document.getElementById('exemptAllowances').value = totalExemptions;
+    }
+
+    function performComprehensiveTaxCalculation() {
+        calculateExemptAllowancesTotal();
+
+        const grossSalary = parseFloat(document.getElementById('grossSalary').value) || 0;
+        const exemptAllowances = parseFloat(document.getElementById('exemptAllowances').value) || 0;
+        const houseProperty = parseFloat(document.getElementById('houseProperty').value) || 0;
+        
+        const interestDeposit = parseFloat(document.getElementById('interestDeposit').value) || 0;
+        const dividendIncome = parseFloat(document.getElementById('dividendIncome').value) || 0;
+        const interestRefund = parseFloat(document.getElementById('interestRefund').value) || 0;
+        
+        const relief89 = parseFloat(document.getElementById('relief89').value) || 0;
+        const interest234A = parseFloat(document.getElementById('interest234A').value) || 0;
+        const interest234B = parseFloat(document.getElementById('interest234B').value) || 0;
+        const interest234C = parseFloat(document.getElementById('interest234C').value) || 0;
+        const fee234F = parseFloat(document.getElementById('fee234F').value) || 0;
+
+        const netSalary = Math.max(0, grossSalary - exemptAllowances);
+        const stdDeduction = netSalary > 0 ? 75000 : 0; 
+        const headSalaries = Math.max(0, netSalary - stdDeduction);
+
+        const totalOtherSources = interestDeposit + dividendIncome + interestRefund;
+        const grossTotalIncome = headSalaries + houseProperty + totalOtherSources;
+        const totalIncome = grossTotalIncome; // Permitted Chapter VI-A deductions are 0 in this simplified layout
+
+        let slabTax = 0;
+        let remainingIncome = totalIncome;
+
+        if (remainingIncome > 2400000) { slabTax += (remainingIncome - 2400000) * 0.30; remainingIncome = 2400000; }
+        if (remainingIncome > 2000000) { slabTax += (remainingIncome - 2000000) * 0.25; remainingIncome = 2000000; }
+        if (remainingIncome > 1600000) { slabTax += (remainingIncome - 1600000) * 0.20; remainingIncome = 1600000; }
+        if (remainingIncome > 1200000) { slabTax += (remainingIncome - 1200000) * 0.15; remainingIncome = 1200000; }
+        if (remainingIncome > 800000)  { slabTax += (remainingIncome - 800000) * 0.10;  remainingIncome = 800000; }
+        if (remainingIncome > 400000)  { slabTax += (remainingIncome - 400000) * 0.05; }
+
+        let rebate87A = 0;
+        if (totalIncome <= 1200000) {
+            rebate87A = slabTax;
+        }
+
+        const taxAfterRebate = Math.max(0, slabTax - rebate87A);
+        const cess = taxAfterRebate * 0.04;
+        const totalTaxCess = taxAfterRebate + cess;
+
+        const balanceTax = Math.max(0, totalTaxCess - relief89);
+        const totalInterestFees = interest234A + interest234B + interest234C + fee234F;
+        const finalDue = balanceTax + totalInterestFees;
+
+        document.getElementById('outGrossSalary').innerText = '₹ ' + grossSalary.toLocaleString('en-IN');
+        document.getElementById('outExemptAllowances').innerText = '₹ ' + exemptAllowances.toLocaleString('en-IN');
+        document.getElementById('outNetSalary').innerText = '₹ ' + netSalary.toLocaleString('en-IN');
+        document.getElementById('outStdDeduction').innerText = '₹ ' + stdDeduction.toLocaleString('en-IN');
+        document.getElementById('outHeadSalaries').innerText = '₹ ' + headSalaries.toLocaleString('en-IN');
+        document.getElementById('outHouseProperty').innerText = '₹ ' + houseProperty.toLocaleString('en-IN');
+        document.getElementById('outOtherSources').innerText = '₹ ' + totalOtherSources.toLocaleString('en-IN');
+        document.getElementById('outGrossTotalIncome').innerText = '₹ ' + grossTotalIncome.toLocaleString('en-IN');
+        document.getElementById('outTotalIncome').innerText = '₹ ' + totalIncome.toLocaleString('en-IN');
+        
+        document.getElementById('outTaxPayableSlab').innerText = '₹ ' + slabTax.toLocaleString('en-IN');
+        document.getElementById('outRebate87A').innerText = '- ₹ ' + rebate87A.toLocaleString('en-IN');
+        document.getElementById('outTaxAfterRebate').innerText = '₹ ' + taxAfterRebate.toLocaleString('en-IN');
+        document.getElementById('outCess').innerText = '₹ ' + cess.toLocaleString('en-IN');
+        document.getElementById('outTotalTaxCess').innerText = '₹ ' + totalTaxCess.toLocaleString('en-IN');
+        document.getElementById('outRelief89').innerText = '₹ ' + relief89.toLocaleString('en-IN');
+        document.getElementById('outBalanceTax').innerText = '₹ ' + balanceTax.toLocaleString('en-IN');
+        document.getElementById('outTotalInterestFees').innerText = '₹ ' + totalInterestFees.toLocaleString('en-IN');
+        document.getElementById('outFinalDue').innerText = '₹ ' + Math.round(finalDue).toLocaleString('en-IN');
+
+        document.getElementById('resultsBlock').style.display = 'block';
+        document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
